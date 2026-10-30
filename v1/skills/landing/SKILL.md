@@ -11,6 +11,8 @@ Tools: autopilot buttons are `cockpit_mcp_and_autopilot`, radios are `cockpit_ra
 
 A coupled ILS with a single autopilot (CMD A only) tracks LOC and G/S down to minima but does not flare or roll out. You land it manually, so tell the user that the landing needs manual input. Do not call it an autoland. A proper autoland needs both autopilots engaged and the autoland armed (checks below).
 
+Before intercept, read the aircraft manual's manual-landing procedure and establish its flare attitude, thrust sequence and disconnect point if a single-channel fallback may be needed. Do not invent a fixed elevator ratio for the flare. Read the `landing` checklist before intercept and acknowledge the ILS/configuration items as verified, while the workload permits.
+
 ## Before intercepting the ILS
 
 Set up and read back each item:
@@ -36,6 +38,8 @@ Do not intercept the glideslope from above and do not press APP repeatedly; if t
 
 With CMD A flying the coupled approach and APP armed, use **`cmd-b-hold` once** (press and hold; if B is flying, use `cmd-a-hold` instead). A short `cmd-b` press only changes over from A to B and never gives two channels. Both must be engaged **before 800 ft radio altitude**; below that the second autopilot is locked out. In practice do it right after G/S capture and well above 1,500 ft. Read `cmd-a` and `cmd-b` (both on). Never press either again (see `ils-final-hands-off`).
 
+If the hold leaves only the other CMD on, it changed channels rather than establishing dual AP. Stop trying alternate CMD holds, classify the approach as single-channel, and report the tool limitation when workload permits. A verified button press is not proof of dual AP; use the lights and FMA to decide on the preplanned manual fallback or go-around.
+
 ## Checks at about 1,500 ft radio altitude
 
 Read `flight-instruments.height-agl` and the group `mcp-and-autopilot`. This is the autoland verification point; the second autopilot's pitch channel becomes active and the dual-channel checks run:
@@ -44,7 +48,14 @@ Read `flight-instruments.height-agl` and the group `mcp-and-autopilot`. This is 
 - `fma-pitch-armed` **`FLARE`** and `fma-roll-armed` **`ROLLOUT`**.
 - `cmd-a` and `cmd-b` both on.
 
-On the real PFD **SINGLE CH** disappears and **LAND 3** (or FLARE armed) appears. The MCP server has **no reading for that annunciation**, so you cannot see it: rely on the FMA readings and the CMD lights. Do not continue expecting an autoland if FLARE is not armed or one CMD is off. **FLARE must be armed by 350 ft radio altitude**; if it is not, treat it as an autoland failure and go around.
+On the real PFD **SINGLE CH** disappears and **LAND 3** (or FLARE armed) appears. The MCP server has **no reading for that annunciation**, so you cannot see it: rely on the FMA readings and the CMD lights. Do not continue expecting an autoland if FLARE is not armed or one CMD is off. **FLARE must be armed by 350 ft radio altitude**; without it, go around unless the preplanned manual fallback below is already established and verified. Do not postpone this decision until flare height.
+
+## Planned single-channel manual landing
+
+- Continue only with a stable approach, required visual references at minima, the manual procedure understood and enough height for control/read-back cycles. Disconnect at the planned manual handover point, verify both CMD lights off, and verify `flight-controls.joystick-override` on before relying on yoke input. Confirm that small inputs actually hold the approach attitude and path before 350 ft; otherwise go around.
+- Below 500 ft, keep a continuous primary-flight scan. Estimate time to the next gate using `height-agl` and its descent trend, cross-checked with vertical speed; do not wait or make unrelated calls if the next observation would cross the 350-foot decision gate or the approximately 50-foot flare region. Include model/decision delay as well as tool duration.
+- Fly the manual's flare with small `pitch-control` changes and immediate pitch/trend and sink-rate read-back; a verified control ratio alone does not prove a flare. Coordinate thrust reduction with the flare per the manual, not with AP disconnect: do not cut to idle while still carrying the unchanged G/S descent and assuming a small pull will arrest it. Go around promptly if control response cannot be confirmed with adequate height remaining.
+- The hands-off flare and automatic thrust-retard instructions below apply only to a verified autoland, not this manual branch.
 
 ## 1,000 to 500 ft
 
@@ -84,6 +95,6 @@ Steer on the ground with the rudder control: turn `flight-controls.joystick-over
 
 Go around with `to-ga-left` and follow the published missed approach if any of these happens:
 
-- a CMD drops, LOC or G/S is lost, or the FMA disagrees with the lights;
+- a CMD drops unexpectedly, LOC or G/S is lost, or the FMA disagrees with the lights;
 - FLARE is not armed by 350 ft radio altitude (or ROLLOUT is not armed) and you cannot land manually with confidence;
 - the approach is unstable, or the required visual references are absent at minima for the approach you are flying.

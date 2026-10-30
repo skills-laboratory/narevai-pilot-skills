@@ -35,8 +35,9 @@ Once **VOR/LOC** is active and **G/S** is armed or active:
 1. Capture LOC/G/S on **CMD A** alone first.
 2. When established and still above ~1500 ft height AGL, use **`cmd-b-hold` once** (press and hold). A short `cmd-b` press only changes over from CMD A to CMD B.
 3. Read `mcp-and-autopilot.cmd-a` and `mcp-and-autopilot.cmd-b`. Both must be on (also visible in `get_function_states`).
+   If the hold merely swaps the active channel, dual AP did not engage: stop retrying and use `landing` to choose the preplanned manual fallback or go-around. Do not wait until short final to discover whether a manual flare is controllable.
 4. **Never press either CMD button again** unless the published go-around requires it.
-5. If one CMD light goes out on final: **go around**. Do not toggle to restore dual channel below the glideslope.
+5. If a previously confirmed dual AP loses one CMD on final: **go around**. Do not toggle to restore dual channel below the glideslope.
 
 ## Unexpected climb on approach
 
@@ -54,6 +55,8 @@ If vertical speed goes positive after you were descending on G/S:
 - One MCP missed-approach set (`set-altitude`) **after** G/S is clearly captured and VS is a steady descent
 - One `cmd-b-hold` for dual channel, then hands off
 - Go-around: `to-ga-left` (in `cockpit_engines_and_thrust`) when unstable or G/S lost
+
+These restrictions protect a coupled approach/autoland. For a preplanned single-channel manual landing, the verified disconnect and manual controls in `landing` are the explicit handover exception; do not improvise that exception near touchdown.
 
 ## Verify after every allowed action
 
