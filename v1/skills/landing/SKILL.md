@@ -52,14 +52,14 @@ On the real PFD **SINGLE CH** disappears and **LAND 3** (or FLARE armed) appears
 
 ## Planned single-channel manual landing
 
-- Continue only with a stable approach, required visual references at minima, the manual procedure understood and enough height for control/read-back cycles. Plan the manual handover early enough to verify both CMD lights off, `flight-controls.joystick-override` on and small inputs holding the approach attitude and path by the 1000 ft stability gate; otherwise go around. The 350 ft gate is a final decision, not the place to test manual control for the first time.
-- Below 500 ft, keep a continuous primary-flight scan. Estimate time to the next gate using `height-agl` and its descent trend, cross-checked with vertical speed; do not wait or make unrelated calls if the next observation would cross the 350-foot decision gate or the approximately 50-foot flare region. Include model/decision delay as well as tool duration.
+- Continue only with a stable approach, required visual references at minima, the manual procedure understood and enough height for control/read-back cycles. Complete the manual handover early enough to verify both CMD lights off, `flight-controls.joystick-override` on and small inputs holding the approach attitude and path by **1000 ft height AGL**. If still single-channel coupled or manual response is unverified at that gate, **go around immediately**, even with centered LOC/G/S. The 350 ft gate is not permission to defer the handover or test manual control near touchdown.
+- From 1000 ft, keep a continuous primary-flight scan. Estimate time to the next gate using `height-agl` and the faster descent implied by its trend or vertical speed; include model/decision delay, control execution and the confirming read-back. Do not wait or make unrelated calls if the next observation would cross the 350-foot decision gate or the approximately 50-foot flare region. Reserve enough time for the manual's flare command and a confirming pitch/sink-rate read before touchdown; if that cycle cannot fit, go around before the flare region rather than rely on an unverified late pull.
 - Fly the manual's flare with small `pitch-control` changes and immediate pitch/trend and sink-rate read-back; a verified control ratio alone does not prove a flare. Coordinate thrust reduction with the flare per the manual, not with AP disconnect: do not cut to idle while still carrying the unchanged G/S descent and assuming a small pull will arrest it. Go around promptly if control response cannot be confirmed with adequate height remaining, or an input balloons the airplane or starts pitch oscillation before the flare region; do not use progressively larger opposite inputs to regain the path.
 - The hands-off flare and automatic thrust-retard instructions below apply only to a verified autoland, not this manual branch.
 
 ## 1,000 to 500 ft
 
-Do not touch the MCP modes: no `lnav`, `vnav`, `hdg-sel`, `v-s`, `lvl-chg`. Leave the autopilot in `VOR/LOC` + `G/S`. Finish configuring normally:
+Do not touch the MCP modes: no `lnav`, `vnav`, `hdg-sel`, `v-s`, `lvl-chg`. **For verified autoland only**, leave the autopilot in `VOR/LOC` + `G/S`; the manual branch must already have completed its verified handover by 1000 ft. A stable single-channel ILS is not an exception to that gate. Verify the landing configuration in either branch:
 
 - Gear down (`gear` with value 2) and landing flaps (`flaps` with value 30 or 40).
 - Speed at VREF plus the appropriate correction (one `set-speed`).
@@ -67,7 +67,7 @@ Do not touch the MCP modes: no `lnav`, `vnav`, `hdg-sel`, `v-s`, `lvl-chg`. Leav
 - Autobrake selected (`autobrake` with value 2, 3 or 4 for settings 1, 2 or 3); read `autobrake-position`.
 - Autothrottle still engaged (`fma-autothrottle`).
 
-## Flare and thrust retard (hands off)
+## Verified autoland — flare and thrust retard (hands off)
 
 Do nothing with the controls. You must **not** try to flare or pull the throttles yourself.
 
@@ -96,5 +96,5 @@ Steer on the ground with the rudder control: turn `flight-controls.joystick-over
 Go around with `to-ga-left` and follow the published missed approach if any of these happens:
 
 - a CMD drops unexpectedly, LOC or G/S is lost, or the FMA disagrees with the lights;
-- FLARE is not armed by 350 ft radio altitude (or ROLLOUT is not armed) and you cannot land manually with confidence;
+- FLARE is not armed by 350 ft radio altitude (or ROLLOUT is not armed) and the manual handover was not already verified by 1000 ft height AGL;
 - the approach is unstable, or the required visual references are absent at minima for the approach you are flying.
