@@ -7,6 +7,8 @@ description: Keep a Zibo 737 ILS/autoland stable after LOC and G/S capture. Use 
 
 After **VOR/LOC** and **G/S** are captured, the autopilot is flying the approach. Most button presses on final make it worse.
 
+These coupled-flight and dual-AP rules are not a manual-landing procedure. A separately prepared manual landing follows `landing` for its verified handover before the 1,000 ft AGL stability gate; an unintended CMD or guidance loss still requires a go-around.
+
 Tools: autopilot buttons are the `cockpit_mcp_and_autopilot` tool (`action` values below); readings are `read_reading` / `read_group` on the `flightsim-pilot` server. The client may prefix tool names with the server name.
 
 Learned the hard way on an ILS Y 35 approach: the airplane was descending on the glideslope with dual AP armed for autoland; unnecessary `cmd-a` / `cmd-b` presses dropped a channel, broke G/S, and the aircraft climbed toward the missed-approach MCP altitude.

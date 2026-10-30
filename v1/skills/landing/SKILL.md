@@ -11,6 +11,10 @@ Tools: autopilot buttons are `cockpit_mcp_and_autopilot`, radios are `cockpit_ra
 
 A coupled ILS with a single autopilot (CMD A only) tracks LOC and G/S down to minima but does not flare or roll out. Continue to a manual landing only if that procedure was deliberately prepared from the aircraft manual before intercept, including verified control authority, AP/A/T handover, flare and thrust timing; telling the user that manual input is needed is not that preparation. Otherwise go around, not an improvised manual rescue on short final. A proper autoland needs both autopilots engaged and the autoland armed (checks below).
 
+For a separate planned manual landing, prove control authority away from short final: with the AP off, verify `flight-controls.joystick-override` on, the commanded control and `pitch-input` agreeing, and the actual attitude responding. A verified setpoint alone is not proof. Prepare the manual's flare and thrust-retard sequence, allowing for the elapsed read/decision/action time, not just tool execution time. Maintain approach thrust through the handover; idle is a flare action, not an AP-disconnect action hundreds of feet up.
+
+Complete the planned AP/A/T handover and verify stable manual attitude, speed and descent before the 1,000 ft AGL stability gate. If that cannot be achieved, go around. The 350-foot autoland-failure gate is not a manual-handover target. A manual final follows its prepared procedure, not the autoland-only hands-off flare and rollout below.
+
 ## Before intercepting the ILS
 
 Set up and read back each item:
@@ -77,7 +81,7 @@ Autoland keeps the airplane on the centreline but is not a taxi system. You own 
 1. **Speedbrakes**: verify they deployed (`brakes-flaps-and-gear.speedbrake-lever` close to fully up; the armed lever deploys on touchdown).
 2. **Reverse thrust**: `cockpit_engines_and_thrust` action `reverse-thrust` holds maximum reverse for 5 seconds, then releases to idle. Repeat while `flight-instruments.ground-speed` is above about 60 kt and watch `engines-and-thrust.reverser-left` and `reverser-right`; stop reversing at about 60 kt. Do not call it in the air.
 3. **Autobrake** slows the airplane (`autobrake-position` shows the setting). Do not use `brakes` straight away, because manual braking can disarm it. Use `brakes` (3 s regular) or `brakes-max` in `cockpit_brakes_flaps_and_gear` only if the airplane is not decelerating enough.
-4. **Disconnect the autopilot** with `ap-disconnect` in `cockpit_mcp_and_autopilot` once the airplane is slow and straight on the centreline. Do not use it on approach; to give up an approach use `to-ga-left`.
+4. **Disconnect the autopilot** with `ap-disconnect` in `cockpit_mcp_and_autopilot` once the airplane is slow and straight on the centreline. On an intended autoland, do not use it on approach; a planned manual handover follows the preparation above. To give up an approach use `to-ga-left`.
 5. Read `ground-speed`, `fma-roll` and the CMD lights between steps.
 
 ## Vacate the runway
