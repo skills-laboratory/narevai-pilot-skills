@@ -20,6 +20,7 @@ Read `takeoff-data` (`gross-weight`, `fuel-total`, `trim-calculated`, `v1-set`, 
 5. On the ground `lnav` and `vnav` do not arm: select them after takeoff.
 6. Nav radios: tune with `set-nav-1-standby-frequency` then `nav-1-swap`, never by writing the radio datarefs.
 7. Read `flight-controls.rudder-trim` and `aileron-trim`: both must be 0 before the brake release (see `takeoff-straight-ahead`).
-8. `master-caution` must read false: press `master-caution-captain` (it reports `verified` when the light goes out) and read it again. No six pack lamp may be lit without an explanation (see `cold-and-dark-start`, Master Caution and the six pack).
+8. Read `fire-and-emergency.flight-control-a` and `flight-control-b`: both must be ON for normal flight. Closed guards and hydraulic pumps ON do not prove these switches are ON. If either reads OFF, use the listed `cockpit_fire_and_emergency` actions and positions to restore normal configuration and verify both readings; if unavailable or unverified, report the problem and do not release the brake.
+9. Fix the cause of every caution before acknowledging it (see `cold-and-dark-start`, Master Caution and the six pack), then press `master-caution-captain` once and read `master-caution` false. No six pack lamp may be lit without an explanation. Acknowledgement can extinguish the flight-controls lamp without changing either flight-control switch: recheck their ON readings, not just the lamps.
 
 Release the parking brake only when the airplane is ready to roll. Then continue with `takeoff-straight-ahead`.
