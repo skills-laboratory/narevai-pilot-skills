@@ -14,6 +14,7 @@ Facts about the route only. How to fly each part is in the phase skills (`fmc-se
 
 ## Arrival
 
+- Select the approach named by the task or arrival procedure before reading its profile. **ILS-Y uses CB DME** (CB 116.7 MHz); **ILS-Z uses ICB DME** paired with the ILS. The profile below is **Z only**. For ILS-Y, read the Y chart and use its distances, altitude restrictions, minima and missed approach; do not substitute Z profile distances even though both use the same ILS frequency and inbound course.
 - STAR **LECE1W** and **ILS Y 35** joined at MOMBI. The FMC legs run: WOL, LECE, AKLIM, EKASA, SLICK, FOXLO, MOMBI, DAMKO, RW35, without a discontinuity. After activating the route there is a discontinuity between WOL and LECE: close it as described in `fmc-setup`.
 - Default performance values when nobody gives others (there is no OFP): ZFW 126.0 (thousands of pounds, from the weight readings), reserves 2.0, cost index 30, cruise FL220, takeoff flaps 5.
 - The leg is short. From FL220 you need roughly a 3.5–4° path to be at about 5000 ft by about 10 DME from ICB; LVL CHG alone is too shallow. Start the descent early, use `speedbrake` value 2, and be at about 160 kt before the FAF. Do not let the speed ride to 250 or more.

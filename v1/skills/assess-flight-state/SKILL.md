@@ -30,10 +30,14 @@ The flight phase is worked out from the simulator, so you do not set it. Phases 
 | Approach unstable or guidance lost | Go-around | `go-around` |
 | On the ground after touchdown | Rollout and vacate | `landing` |
 
-Use `fly-the-airplane` throughout for how the tools work and `routes/` skills when one of them describes the route you are flying.
+Load the selected phase skill and `fly-the-airplane` now, then use `routes/` skills for the route facts you need. Read the current checklist section (`read_checklist` with `category`) and mark items as their conditions and required evidence are confirmed; do not replay earlier ground procedures in flight.
 
 ## Take over, do not redo
 
 When you start in the air or with the engines running, the airplane has been prepared by the simulator and not by you. Do not repeat start-up steps, and do not press toggles whose state you have not read. Anything the task needs that was not prepared (altimeter, radios, lights, minimums, autobrake, the FMC route) is yours: check each one before relying on it.
 
-Stop where the task says to stop. Some tasks end early, for example when the airplane reaches cruise: the run stops by itself, so do not fly past what the task asks for.
+## Continue to the task endpoint
+
+Reading the state, a skill or a chart is preparation, not completion. After a document read, refresh `read_flight_deck_indications` and carry out the next required phase step, verifying each change before continuing. Do not finish with a promise to load a skill or begin the approach: load it and continue the read–act–verify loop while the task remains unfinished.
+
+Stop only when the requested endpoint is verified, the run ends, or a specific blocker prevents further safe progress. For a land-and-stop task, verify `on-ground`, ground speed near zero and position at the destination; review the current checklist, mark only confirmed items and report anything unresolved. A phase label such as `approach` is not completion. Some tasks end earlier, for example at cruise: respect that endpoint and do not fly past it.
