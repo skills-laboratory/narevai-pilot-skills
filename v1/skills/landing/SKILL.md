@@ -19,16 +19,21 @@ Set up and read back each item:
 2. **Course 1 and Course 2** on the published inbound ILS course: `set-nav-1-course` and `set-nav-2-course`; read `nav-1-course` and `nav-2-course`.
 3. **MCP altitude**: normally the missed-approach altitude once established on the glideslope, according to the procedure you fly (`set-altitude`). Do not set it above you earlier than the procedure allows, and see `ils-final-hands-off` for when it is safe.
 4. **A/T ARM** on and **flight directors** on. `a-t-arm-toggle` and `flight-director-toggle` flip each press: read `get_function_states` first.
-5. **Configured and slowing** for the approach: flaps to schedule, then landing speed set once (`set-speed`).
+5. **Configured and slowing** for the approach: flaps to schedule and selected speed appropriate to the current flap setting (`set-speed`); use the alive/capture sequence below for final configuration.
 
 You may still be flying LNAV/VNAV, HDG SEL or LVL CHG. The ILS takes over when you arm and capture APP.
 
 ## Intercept and capture
 
+Read the `landing` checklist before changing configuration; it may return separate parts for glideslope alive and capture. Keep each part's identifiers and mark only its independently confirmed items at the applicable condition, rather than postponing all marks until final configuration.
+
 1. Get onto an intercept heading, preferably 30° or less from the localizer course.
 2. Read the active and armed FMA first. Press **`app`** once only if not already armed/captured. Verify the resulting modes even if the button reports `no change`: `fma-roll-armed` `VOR/LOC` and `fma-pitch-armed` `G/S`. Do not press CMD B yet.
 3. **Localizer captures**: `fma-roll` becomes `VOR/LOC` and the airplane turns onto the centreline; G/S stays armed.
-4. **Glideslope captures from below**: `fma-pitch` becomes `G/S`, the deviation is near centre and a sustained descent begins along the charted path. The mode label alone is not capture evidence. Only then do you have a coupled ILS, not yet an autoland.
+4. **Glideslope alive**, moving toward centre from below: follow the checklist's intermediate configuration before advancing to landing flaps. Select gear DOWN, verify nose/left/right gear safe with no transit indications, select and verify flaps 15, set both engine start switches CONT and verify them, and arm the speedbrake. The SPEEDBRAKE ARMED lamp is a separate check from the lever detent: use available documented lamp feedback, or report it unavailable and leave only that item unconfirmed.
+5. **Glideslope captures from below**: `fma-pitch` becomes `G/S`, the deviation is near centre and a sustained descent begins along the charted path. The mode label alone is not capture evidence. Only then do you have a coupled ILS, not yet an autoland. Verify the selected landing flap configuration and target speed, then set and read back the published missed-approach altitude when permitted; mark these in the capture part of the checklist.
+
+If taking over already at landing flaps, do not retract them just to fill a missed intermediate item. Leave that item unconfirmed unless its condition and required configuration were actually observed.
 
 While still below the beam outside the expected capture distance, ALT HOLD with G/S armed is normal: hold the permitted intercept altitude, configure and monitor, rather than descend or reset the radios. Do not intercept from above or press APP repeatedly. If verified capture fails as the path reaches the aircraft, guidance is lost or the approach becomes unstable, go around rather than experiment.
 
