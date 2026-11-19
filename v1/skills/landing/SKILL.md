@@ -9,7 +9,7 @@ Tools: autopilot buttons are `cockpit_mcp_and_autopilot`, radios are `cockpit_ra
 
 ## Autoland is not an ILS with one autopilot
 
-A coupled ILS with a single autopilot (CMD A only) tracks LOC and G/S down to minima but does not flare or roll out. You land it manually, so tell the user that the landing needs manual input. Do not call it an autoland. A proper autoland needs both autopilots engaged and the autoland armed (checks below).
+A coupled ILS with one CMD channel tracks LOC and G/S but does not flare or roll out. A proper autoland needs both autopilots engaged and the autoland armed (checks below). Choose the landing method early: a planned manual landing requires the verified handoff below, not just a statement that you will flare manually. If an attempted dual-channel engagement drops the first CMD, follow `go-around`; do not relabel the failed autoland as a late manual landing.
 
 ## Before intercepting the ILS
 
@@ -39,7 +39,7 @@ While still below the beam outside the expected capture distance, ALT HOLD with 
 
 ## Second autopilot
 
-With CMD A flying the coupled approach and APP armed, use **`cmd-b-hold` once** (press and hold; if B is flying, use `cmd-a-hold` instead). A short `cmd-b` press only changes over from A to B and never gives two channels. Both must be engaged **before 800 ft radio altitude**; below that the second autopilot is locked out. In practice do it right after G/S capture and well above 1,500 ft. Read `cmd-a` and `cmd-b` (both on). Never press either again (see `ils-final-hands-off`).
+With CMD A flying the coupled approach and APP armed, use **`cmd-b-hold` once** (press and hold; if B is flying, use `cmd-a-hold` instead). A short `cmd-b` press only changes over from A to B and never gives two channels. Both must be engaged **before 800 ft radio altitude**; below that the second autopilot is locked out. In practice do it right after G/S capture and well above 1,500 ft. Read both `cmd-a` and `cmd-b`: verification of the newly selected channel alone does not establish dual engagement. If the first channel drops, report the limitation and go around without another CMD press; reassess the landing method only after the missed approach is stable.
 
 ## Checks at about 1,500 ft radio altitude
 
@@ -63,13 +63,23 @@ Do not touch the MCP modes: no `lnav`, `vnav`, `hdg-sel`, `v-s`, `lvl-chg`. Leav
 
 ## Flare and thrust retard (hands off)
 
-Hands off the controls, not the instrument scan: keep reading the FMA, height, speed and descent until touchdown is confirmed, then perform the stopping sequence. You must **not** try to flare or pull the throttles yourself.
+This section applies only to verified dual-channel autoland. Hands off the controls, not the instrument scan: keep reading the FMA, height, speed and descent until touchdown is confirmed, then perform the stopping sequence. You must **not** try to flare or pull the throttles yourself.
 
 1. About **50 ft**: the AFDS flares automatically. `fma-pitch` changes from `G/S` to `FLARE` and the flight director bars retract. Do not disconnect the autopilot.
 2. About **27 ft**: the autothrottle retards the thrust levers toward idle during the flare.
 3. **Touchdown.** The autopilot stays engaged for the immediate landing and `fma-roll` `ROLLOUT` tracks the centreline.
 
 Monitor only: `airspeed`, `vertical-speed` (negative), `height-agl`, FMA, `nav-1-localizer` and `nav-1-glideslope` dots. If FLARE and ROLLOUT do not appear when they should, treat it as a failed autoland.
+
+## Planned manual landing
+
+Use this only when deliberately briefed before final, not to salvage a failed autoland. Establish manual control and a stable approach before the 1,000 ft AGL stability gate; if that cannot be verified, go around.
+
+1. With a stable coupled path and adequate height, read the override and held-input states. Neutralise pitch, roll and rudder setpoints, enable joystick override only if off, then use `ap-disconnect` once and read both CMD lights OFF. Verify actual input feedback and attitude response before increasing an input. Override ON alone does not disconnect CMD; do not build up elevator against an engaged autopilot.
+2. Check the actual A/T state after disconnect, not just the armed switch. If A/T is no longer controlling speed, maintain approach thrust manually and verify IAS and N1 after each change. Continue the glidepath at the weight/configuration-based approach speed; do not reduce thrust to idle or arrest the descent hundreds of feet above the runway.
+3. Confirm the required visual references by minima and monitor runway alignment as well as LOC deviation. A centred localizer or matching heading alone does not prove a touchdown on the runway centreline. If alignment, speed, descent or manual control cannot be maintained, follow `go-around`.
+4. Begin a normal manual flare at about 20–30 ft above the runway, using small pitch changes and reducing thrust smoothly toward idle. Read pitch and its trend, IAS, height and descent after every change; ease the held elevator toward neutral as pitch responds rather than chasing a delayed vertical-speed reading.
+5. Keep issuing the read–act–verify loop through confirmed touchdown and stopping. A nonzero held input is not an unattended flare: execute each control decision and read back its effect rather than finish with a promise to adjust pitch or thrust while airborne. After stopping, complete the separately verified `after_landing` items below.
 
 ## After touchdown
 
@@ -78,7 +88,7 @@ Autoland keeps the airplane on the centreline but is not a taxi system. You own 
 1. **Speedbrakes**: verify they deployed (`brakes-flaps-and-gear.speedbrake-lever` close to fully up; the armed lever deploys on touchdown).
 2. **Reverse thrust**: `cockpit_engines_and_thrust` action `reverse-thrust` holds maximum reverse for 5 seconds, then releases to idle. Repeat while `flight-instruments.ground-speed` is above about 60 kt and watch `engines-and-thrust.reverser-left` and `reverser-right`; stop reversing at about 60 kt. Do not call it in the air.
 3. **Autobrake** slows the airplane (`autobrake-position` shows the setting). Do not use `brakes` straight away, because manual braking can disarm it. Use `brakes` (3 s regular) or `brakes-max` in `cockpit_brakes_flaps_and_gear` only if the airplane is not decelerating enough.
-4. **Disconnect the autopilot** with `ap-disconnect` in `cockpit_mcp_and_autopilot` once the airplane is slow and straight on the centreline. Do not use it on approach; to give up an approach use `to-ga-left`.
+4. **Disconnect the autopilot**, if still engaged after autoland, with `ap-disconnect` in `cockpit_mcp_and_autopilot` once the airplane is slow and straight on the centreline. The only planned approach disconnect is the early manual handoff above; to abandon an approach use `to-ga-left`.
 5. Read `ground-speed`, `fma-roll` and the CMD lights between steps.
 
 ## After-landing verification
@@ -99,6 +109,6 @@ Steer on the ground with the rudder control: turn `flight-controls.joystick-over
 
 Go around with `to-ga-left` and follow the published missed approach if any of these happens:
 
-- a CMD drops, LOC or G/S is lost, or the FMA disagrees with the lights;
-- FLARE is not armed by 350 ft radio altitude (or ROLLOUT is not armed) and you cannot land manually with confidence;
+- a CMD drops unexpectedly, LOC or G/S is lost, or the FMA disagrees with the lights;
+- on a planned autoland, FLARE is not armed by 350 ft radio altitude or ROLLOUT is not armed; do not substitute a late manual takeover;
 - the approach is unstable, or the required visual references are absent at minima for the approach you are flying.

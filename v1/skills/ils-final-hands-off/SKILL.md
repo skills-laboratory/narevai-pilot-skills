@@ -5,7 +5,7 @@ description: Keep a Zibo 737 ILS/autoland stable after LOC and G/S capture. Use 
 
 # ILS final — hands off the modes
 
-After **VOR/LOC** and **G/S** are captured, the autopilot is flying the approach. Most button presses on final make it worse.
+After **VOR/LOC** and **G/S** are captured with CMD engaged, the autopilot is flying the approach. Most button presses on final make it worse. These mode-preservation rules do not authorise continuing a failed autoland: use the early manual-handoff procedure in `landing` only for a deliberately planned manual approach; otherwise follow `go-around`.
 
 Tools: autopilot buttons are the `cockpit_mcp_and_autopilot` tool (`action` values below); readings are `read_reading` / `read_group` on the `flightsim-pilot` server. The client may prefix tool names with the server name.
 
@@ -35,8 +35,8 @@ Once **VOR/LOC** is active and **G/S** is armed or active:
 1. Capture LOC/G/S on **CMD A** alone first.
 2. When established and still above ~1500 ft height AGL, use **`cmd-b-hold` once** (press and hold). A short `cmd-b` press only changes over from CMD A to CMD B.
 3. Read `mcp-and-autopilot.cmd-a` and `mcp-and-autopilot.cmd-b`. Both must be on (also visible in `get_function_states`).
-4. **Never press either CMD button again** unless the published go-around requires it.
-5. If one CMD light goes out on final: **go around**. Do not toggle to restore dual channel below the glideslope.
+4. If the hold engages the requested CMD but drops the other, dual engagement failed despite `verified: true`. **Go around immediately**; do not try the opposite hold or continue to the flare on one channel.
+5. If both remain on, **never press either CMD button again** unless the published go-around requires it. If one later goes out on final, **go around**, not a late manual salvage.
 
 ## Unexpected climb on approach
 
@@ -53,7 +53,8 @@ If vertical speed goes positive after you were descending on G/S:
 - One speed set (`set-speed`) to target approach speed
 - One MCP missed-approach set (`set-altitude`) **after** G/S is clearly captured and VS is a steady descent
 - One `cmd-b-hold` for dual channel, then hands off
-- Go-around: `to-ga-left` (in `cockpit_engines_and_thrust`) when unstable or G/S lost
+- Early planned manual handoff: the verified sequence in `landing`, completed before the 1,000 ft AGL stability gate; no elevator inputs against engaged CMD
+- Go-around: `to-ga-left` (in `cockpit_engines_and_thrust`) when unstable, G/S lost or dual-channel engagement fails
 
 ## Verify after every allowed action
 
