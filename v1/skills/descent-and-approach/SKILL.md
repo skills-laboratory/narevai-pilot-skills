@@ -7,6 +7,21 @@ description: "Descend the Zibo 737-800X from cruise and set up an ILS approach: 
 
 Use `fly-the-airplane` for how the tools work. Read the `descent` checklist and, when taking over near the airport or joining final, also read `approach`; read `landing` when configuring gear and landing flaps. Mark confirmed items in their own sections and verify the marks persisted. An unresolved descent item does not hold the airplane in that checklist section: leave it unconfirmed, report the limitation and continue the other sections while safe. If the autopilot is already flying, look first (`assess-flight-state`) and do not change what is already right. Do not press `lnav` or `vnav` when the FMC has no route.
 
+## Next step after each scan
+
+After a setup read-back or checklist mark, refresh `read_flight_deck_indications`, check position/path and choose the next unmet step below. Do not repeat a verified setting or finish with a promise to perform the next step.
+
+| State | Next step |
+| --- | --- |
+| An unconfirmed setup item already matches the chart/procedure | Confirm and mark its item when applicable, then move to the next requirement without moving the control. Compare the altimeter setting and STD state with the actual QNH; a new altimeter action is unnecessary if already correct. |
+| Actual altitude differs from the permitted intercept altitude, with G/S not captured | Verify terrain and chart restrictions, then use the permitted target and a suitable LVL CHG or V/S mode if an altitude change is needed; verify the flight trend. `ALT HOLD` holds actual altitude, not the MCP window, so a correct selected altitude does not establish a correct intercept altitude. |
+| ILS identified, correct intercept geometry, LOC/G/S not armed | Arm APP once and verify the modes now; do not wait for every setup item to be complete. Continue the speed/flap schedule and remaining preparation while monitoring guidance. |
+| Still at arrival speed or landing preparation incomplete | Start the weight/configuration-appropriate speed/flap schedule; complete VREF, minima, lights and landing autobrake with their required read-backs and checklist marks. An inherited RTO setting is not a landing selection. Interrupt setup with flight-deck scans. |
+| LOC/G/S armed, still below the beam outside capture distance | Hold the permitted intercept altitude, configure at the alive/capture conditions in `landing`, and read the instruments again; waiting for capture is an active monitoring loop. |
+| LOC/G/S verified captured with a steady descent | Continue directly with `ils-final-hands-off` and `landing`, including channel/mode verification for the chosen landing method, minima, touchdown and stopping. |
+
+If the path or guidance is unsafe, follow `go-around` rather than advance through setup. Use the endpoint check in `fly-the-airplane` before reporting completion.
+
 ## Airborne arrival priorities
 
 - Protect the intercept margin before extended FMC work: confirm the published approach and missed approach, tune/identify the ILS and verify courses, establish the permitted intercept altitude, and start the weight/configuration-appropriate speed/flap schedule. A tuned ILS does not require rebuilding the entire FMC route; landing performance, minima and all required checklist confirmations still need completion.
@@ -47,19 +62,6 @@ Use `fly-the-airplane` for how the tools work. Read the `descent` checklist and,
 - As soon as properly positioned, select `app` once: ident matches, localizer within about two dots, on the final course and below the path. Do not postpone arming until all flap or checklist work is finished; configure while monitoring the beam. Read the FMA first; do not press APP again if already armed/captured. Judge a `verified: false` result by the resulting modes, not button feedback alone. Do not swap a correctly identified ILS off frequency to reset guidance.
 - Verify LOC/G/S armed, then captured (`fma-roll` `VOR/LOC`, `fma-pitch` `G/S`) with near-centred deviations and a sustained descent consistent with the chart. A G/S label while level or climbing far below the beam is not a verified coupled final: do not engage the second CMD or raise the MCP on that label alone. Report unknown FMA codes without guessing their meaning; if actual guidance cannot be confirmed safely, follow `go-around`. From verified capture follow `ils-final-hands-off`, then `landing`.
 - If the approach is not stable by about 1000 ft AGL, or guidance is lost, follow `go-around`.
-
-## Continue through capture and landing
-
-For an ILS land-and-stop task, use these checkpoints after each instrument read:
-
-| State | Next step |
-| --- | --- |
-| ILS identified, correct intercept geometry, LOC/G/S not armed | Arm APP once and verify the armed or captured modes. |
-| LOC/G/S armed, still below the beam outside capture distance | Hold the permitted intercept altitude, finish the landing configuration and checklist, then read the instruments again; waiting for capture is an active monitoring loop. |
-| LOC/G/S verified captured with a steady descent | Continue directly with `ils-final-hands-off` and `landing`, including dual-channel verification, minima, touchdown and stopping. |
-| Still airborne or rolling after touchdown | Continue the appropriate flying or stopping step; a configuration update or a promise to do the next step is not completion. |
-
-End only after the requested endpoint is verified, the run has ended, or a specific safety blocker prevents continuation. A reported minimums-control limitation alone does not end the approach when the published altitude can still be monitored safely.
 
 ## RNAV approach instead
 

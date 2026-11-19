@@ -5,7 +5,9 @@ description: Fly the simulator aircraft through the flightsim-pilot (v2) MCP ser
 
 # Fly the airplane
 
-Work a closed loop. Do not skip the read after a control change.
+Work a closed loop: read, choose the next required action, act, verify, then scan again. A progress report must be followed by the next instrument or cockpit call in the same response, not a handoff to the user. After completing a configuration or checklist verification, begin another flight-deck scan rather than a closing summary; do not skip the read after a control change.
+
+Before a final response, check the requested endpoint against fresh readings. For land-and-stop, require `on-ground`, ground speed near zero and position at the destination. If the endpoint is unmet and the run is active, continue with the next phase step; if no change is needed while waiting for capture, call `read_flight_deck_indications` again. End early only for a specific blocker that prevents safe progress, stating the observed condition and why continuation is unsafe.
 
 Call the MCP server `flightsim-pilot`. It is the cockpit (MCP v2). The client may prefix tool names with the server name; this skill uses the bare tool names. Read each tool schema before calling it.
 
