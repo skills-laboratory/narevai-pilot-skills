@@ -7,6 +7,12 @@ description: "Descend the Zibo 737-800X from cruise and set up an ILS approach: 
 
 Use `fly-the-airplane` for how the tools work. Read the `descent` checklist and, when taking over near the airport or joining final, also read `approach`; read `landing` when configuring gear and landing flaps. Mark confirmed items in their own sections and verify the marks persisted. An unresolved descent item does not hold the airplane in that checklist section: leave it unconfirmed, report the limitation and continue the other sections while safe. If the autopilot is already flying, look first (`assess-flight-state`) and do not change what is already right. Do not press `lnav` or `vnav` when the FMC has no route.
 
+## Airborne arrival priorities
+
+- Protect the intercept margin before extended FMC work: confirm the published approach and missed approach, tune/identify the ILS and verify courses, establish the permitted intercept altitude, and start the weight/configuration-appropriate speed/flap schedule. A tuned ILS does not require rebuilding the entire FMC route; landing performance, minima and all required checklist confirmations still need completion.
+- Interrupt each CDU entry/read-back sequence or minimums troubleshooting attempt with a flight-deck scan and a position/path check. Estimate time to intercept from remaining distance and ground speed; steady ALT HOLD is not spare time while the airplane is closing on the beam. Report an unsupported setting without repeatedly editing route origin/destination to cure it while continuing inbound.
+- If required setup cannot be completed before a safe intercept, discontinue the inbound join early using verified guidance and the published procedure, then rejoin from below. Do not spend that margin troubleshooting, arrive above the path and compensate with a close-in V/S descent; use `go-around` when already unstable or guidance cannot be confirmed.
+
 ## Descent
 
 - Before top of descent, confirm the arrival and the approach, then select the permitted lower altitude on the MCP. A VNAV descent cannot begin normally while the MCP stays at the cruise altitude. Monitor path and speed; manage drag with `speedbrake` value 2 when necessary.
