@@ -1,6 +1,6 @@
 ---
 name: fmc-setup
-description: Check or enter the route and performance data in the Zibo 737-800X FMC through the CDU: reference airport, IRS position, route, SID, STAR, approach, activation, discontinuities, PERF INIT and TAKEOFF REF. Use when the FMC has no route, the route or performance data look wrong, or before takeoff.
+description: "Check or enter the route and performance data in the Zibo 737-800X FMC through the CDU: reference airport, IRS position, route, SID, STAR, approach, activation, discontinuities, PERF INIT and TAKEOFF REF. Use when the FMC has no route, the route or performance data look wrong, or before takeoff."
 ---
 
 # FMC setup
@@ -11,9 +11,9 @@ Use `fly-the-airplane` for how the tools work. Read the CDU first (`read_group` 
 
 - `CLR` deletes **one character** and an error message (`INVALID ENTRY`, `NOT IN DATA BASE`) hides the text you typed but does not remove it. Press `clr` until `scratchpad` is empty before you type again.
 - Check the CDU after every entry. `exec` only when the light is on.
-- Line select keys: the key next to a row is `lsk-<row><l|r>` (row 1 at the top, 6 at the bottom, `l` left, `r` right). On list pages (SIDs, STARs, approaches, transitions) read the page first and press the key on the row of the name you want. Use `next-page` and `prev-page` when the name is not on the page. Selected entries are marked `<SEL>`.
+- Line select keys: the key next to a field is `lsk-<row><l|r>` (row 1 at the top, 6 at the bottom, `l` left, `r` right). Match both row and side to the displayed label; a right-aligned field is not entered with the left key on that row. On list pages (SIDs, STARs, approaches, transitions) press the key beside the name you want. Use `next-page` and `prev-page` when the name is not on the page. Selected entries are marked `<SEL>`.
 - `<INDEX` (`lsk-6l`) on a DEP/ARR page leads to the INIT/REF INDEX, not to the DEP/ARR index; press `dep-arr` to get back to the DEP/ARR index.
-- If the CDU does not accept an entry, read what it says, correct it, and try again. If you cannot complete the setup, say exactly what is missing and stop.
+- If the CDU does not accept an entry, read the message, scratchpad and target field; check format, row and side before correcting and retrying. On the ground, do not depart with required setup incomplete. Airborne, an unresolved CDU field is not a reason to stop flying: refresh the flight-deck indications and follow `descent-and-approach` or the current phase procedure. Report what is missing and continue only with verified guidance and performance data; if they cannot be established safely, fly the applicable missed approach or recovery rather than end while inbound.
 
 ## Verify an existing route
 
