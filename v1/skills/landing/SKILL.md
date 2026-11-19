@@ -26,11 +26,11 @@ You may still be flying LNAV/VNAV, HDG SEL or LVL CHG. The ILS takes over when y
 ## Intercept and capture
 
 1. Get onto an intercept heading, preferably 30° or less from the localizer course.
-2. Press **`app`** once. Read the FMA: `fma-roll-armed` `VOR/LOC` and `fma-pitch-armed` `G/S`. Do not press CMD B yet.
+2. Read the active and armed FMA first. Press **`app`** once only if not already armed/captured. Verify the resulting modes even if the button reports `no change`: `fma-roll-armed` `VOR/LOC` and `fma-pitch-armed` `G/S`. Do not press CMD B yet.
 3. **Localizer captures**: `fma-roll` becomes `VOR/LOC` and the airplane turns onto the centreline; G/S stays armed.
-4. **Glideslope captures**, normally from below: `fma-pitch` becomes `G/S` and the descent begins. You now have a coupled ILS, but not yet an autoland.
+4. **Glideslope captures from below**: `fma-pitch` becomes `G/S`, the deviation is near centre and a sustained descent begins along the charted path. The mode label alone is not capture evidence. Only then do you have a coupled ILS, not yet an autoland.
 
-Do not intercept the glideslope from above and do not press APP repeatedly; if the capture does not happen, go around rather than experiment.
+While still below the beam outside the expected capture distance, ALT HOLD with G/S armed is normal: hold the permitted intercept altitude, configure and monitor, rather than descend or reset the radios. Do not intercept from above or press APP repeatedly. If verified capture fails as the path reaches the aircraft, guidance is lost or the approach becomes unstable, go around rather than experiment.
 
 ## Second autopilot
 

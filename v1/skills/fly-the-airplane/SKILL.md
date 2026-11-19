@@ -64,6 +64,12 @@ Guarded and irreversible functions are in `fire-and-emergency`. Do not use them 
 3. If the airplane does not match what you expected, re-read the group and `get_function_states`. There is no action history to consult.
 4. Keep scan: attitude, airspeed, altitude, heading, engine, then navigation.
 
+### Selections, modes and response time
+
+- A window value is a target, not the current aircraft response. Check the selected value, active FMA, CMD lights and actual flight trend separately. `trend` is change per second and `ago` is the earlier value, not a new selection; heading wraps through 360°/0°, so compare turn direction and angular error rather than a raw heading trend.
+- Outside a captured final, deliberately select `v-s`, then set the desired rate and read back both the window and FMA. If airspeed, terrain and altitude margins remain safe and the response is converging, keep scanning for several cycles without changing the target again. Pitch, vertical speed and bank do not reach new targets instantly; continuing toward the target is not an autopilot fault. If the response diverges or safety margins are threatened, take the appropriate recovery action.
+- `alt-hld` levels at the current altitude; it does not fly to the MCP altitude. For a permitted climb/descent, select the target altitude and a suitable pitch mode (LVL CHG or V/S), then verify capture. Do not press ALT HOLD to reach a lower selected altitude, or cancel a working descent because its first readings lag the request.
+
 ## 4. If you are lost
 
 - Charts and airport procedures are `flightsim-pilot` documents. `list_documents` with kind `chart` or `sop` and the airport ICAO, then `read_document`.
@@ -84,8 +90,8 @@ Guarded and irreversible functions are in `fire-and-emergency`. Do not use them 
 
 The flight is scored on the checklist items you mark with `mark_checklist`, so a done item that is not marked counts as missed.
 
-- Read a section with `read_checklist` (`category`) when you reach that part of the flight. The first scoped read returns `user_id`, `run_id` and `execution_id`; reuse them.
-- When you have done an item and seen the confirmation (a reading, `verified: true`, or the FMA), mark it at once with `mark_checklist` (`section`, `item`). Do not wait and do not batch it for later.
+- Read a section with `read_checklist` (`category`) when you reach that part of the flight. Reuse the returned execution identifiers and the exact section/item ids from the checklist, not guessed category names or challenge text. If activation is required (`active_section_id` is null and automatic activation is off), use `activate_checklist` for that returned section according to its schema before marking.
+- When you have done an item and seen the required confirmation (a reading, `verified: true`, or the FMA), mark it at once with `mark_checklist` using its returned identifiers and required evidence. Read the checklist back to verify the mark persisted. Do not wait or batch it for later; an unresolved VREF or minimums item does not prevent marking separately verified radios or autobrake.
 - If you did something before you read its section, read the section and mark what you already did and confirmed.
 - Before you move on to the next part of the flight, read the section you are finishing and mark every item you did and confirmed. Leave an item unmarked only if you did not do it or could not confirm it, and say so.
 - Never mark an item you did not do, and never mark a whole section in one go.
