@@ -5,7 +5,7 @@ description: Land the Zibo 737-800X with a proper dual-autopilot ILS autoland. U
 
 # Landing — ILS autoland
 
-Tools: autopilot buttons are `cockpit_mcp_and_autopilot`, radios are `cockpit_radios_and_ils`, gear/flaps/autobrake/speedbrake are `cockpit_brakes_flaps_and_gear`, go-around is `to-ga-left` in `cockpit_engines_and_thrust`. Readings come from `read_reading` / `read_group`. The client may prefix tool names with the server name. What not to press once on final is in `ils-final-hands-off`; this skill is the setup and the sequence. Set the flight phase with `set_run_phase`: `approach` when you start the ILS, `landing` on final, `arrived` once stopped.
+Tools: autopilot buttons are `cockpit_mcp_and_autopilot`, radios are `cockpit_radios_and_ils`, gear/flaps/autobrake/speedbrake are `cockpit_brakes_flaps_and_gear`, go-around is `to-ga-left` in `cockpit_engines_and_thrust`. Readings come from `read_reading` / `read_group`. The client may prefix tool names with the server name. What not to press once on final is in `ils-final-hands-off`; this skill is the setup and the sequence. The simulator tracks the flight phase automatically; use actual aircraft state for the next step, not a phase-setting call.
 
 ## Autoland is not an ILS with one autopilot
 
@@ -58,7 +58,7 @@ Do not touch the MCP modes: no `lnav`, `vnav`, `hdg-sel`, `v-s`, `lvl-chg`. Leav
 
 ## Flare and thrust retard (hands off)
 
-Do nothing with the controls. You must **not** try to flare or pull the throttles yourself.
+Hands off the controls, not the instrument scan: keep reading the FMA, height, speed and descent until touchdown is confirmed, then perform the stopping sequence. You must **not** try to flare or pull the throttles yourself.
 
 1. About **50 ft**: the AFDS flares automatically. `fma-pitch` changes from `G/S` to `FLARE` and the flight director bars retract. Do not disconnect the autopilot.
 2. About **27 ft**: the autothrottle retards the thrust levers toward idle during the flare.
@@ -84,7 +84,7 @@ Before declaring the flight complete, read `fire-and-emergency`, the relevant sy
 
 ## Vacate the runway
 
-Steer on the ground with the rudder control: turn `flight-controls.joystick-override` on first (toggle: read the state), then `set-rudder-control` / `rudder-control` with a small ratio (the sign moves the nose left or right: check `heading` after the first input and correct), and return it to 0 to go straight. Control speed with `throttle` and `brakes` (`ground-speed` should be slow, about 10 to 20 kt, before any turn). Follow the chart for the exit, keep to the centreline until you turn, and stop with the parking brake (`parking-brake-toggle`, read the state first) clear of the runway. Then report where you are and set the phase to `arrived`.
+Steer on the ground with the rudder control: turn `flight-controls.joystick-override` on first (toggle: read the state), then `set-rudder-control` / `rudder-control` with a small ratio (the sign moves the nose left or right: check `heading` after the first input and correct), and return it to 0 to go straight. Control speed with `throttle` and `brakes` (`ground-speed` should be slow, about 10 to 20 kt, before any turn). Follow the chart for the exit, keep to the centreline until you turn, and stop with the parking brake (`parking-brake-toggle`, read the state first) clear of the runway. Before reporting completion, verify `on-ground`, ground speed near zero and position at the destination, and review the `after_landing` checklist; do not set the phase yourself.
 
 ## Go around
 

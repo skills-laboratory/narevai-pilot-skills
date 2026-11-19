@@ -5,7 +5,7 @@ description: "Descend the Zibo 737-800X from cruise and set up an ILS approach: 
 
 # Descent and approach
 
-Use `fly-the-airplane` for how the tools work. Read the `descent` and `approach` checklist sections (`read_checklist` with `category`) and mark items as you confirm them. If you start close to the airport with the autopilot already flying, look first (`assess-flight-state`) and do not change what is already right. Do not press `lnav` or `vnav` when the FMC has no route.
+Use `fly-the-airplane` for how the tools work. Read the `descent` checklist and, when taking over near the airport or joining final, also read `approach`; read `landing` when configuring gear and landing flaps. Mark confirmed items in their own sections and verify the marks persisted. An unresolved descent item does not hold the airplane in that checklist section: leave it unconfirmed, report the limitation and continue the other sections while safe. If the autopilot is already flying, look first (`assess-flight-state`) and do not change what is already right. Do not press `lnav` or `vnav` when the FMC has no route.
 
 ## Descent
 
@@ -36,10 +36,23 @@ Use `fly-the-airplane` for how the tools work. Read the `descent` and `approach`
 - Establish above/below from geometry before changing anything: compare QNH altitude with threshold elevation plus about 320 ft per NM **to the threshold**, or the selected chart's glidepath table with its stated DME reference. Do not substitute CB DME, ICB DME and threshold distance for each other.
 - With a valid identified ILS, negative `nav-1-glideslope` is below the path and positive is above; cross-check with geometry. A steady ±2.5 dots is a full-scale deviation, not proof that the receiver is frozen. Check whether DME and position change before declaring a distance fault.
 - Capture **from below**: hold the permitted intercept altitude until the path reaches it. `ALT HOLD` active with `G/S` armed is normal while below the beam; lowering the MCP altitude alone does not start a descent. Estimate capture distance as (altitude minus threshold elevation) / 320, monitor progress toward it and configure meanwhile. Do not descend by hand or go around merely because the armed mode has not yet captured outside that distance.
-- Slow down early so that gear, landing flaps and the landing speed are set before the glideslope. The autothrottle holds the selected speed, so use `set-speed` in steps and extend the flaps within their limits (see `landing`). Use `speedbrake` value 2 for drag and arm it (value 1) for landing.
-- Select `app` once when properly positioned: ident matches, localizer within about two dots, on the final course and below the path. Read the FMA first; do not press APP again if already armed/captured. Judge a `verified: false` result by the resulting modes, not button feedback alone. Do not swap a correctly identified ILS off frequency to reset guidance.
+- Slow down early so that gear, landing flaps and the landing speed are set before the glideslope. The autothrottle holds the selected speed, so use `set-speed` in steps and extend the flaps within their limits (see `landing`). Deploy `speedbrake` value 2 only for excess energy; retract to DOWN using the listed control position as speed approaches the target, and before flaps 15 or greater. Do not add speedbrake while already at or below selected speed: the autothrottle will add thrust against the drag. Arm it (value 1) for landing and verify the lever is armed, not deployed.
+- As soon as properly positioned, select `app` once: ident matches, localizer within about two dots, on the final course and below the path. Do not postpone arming until all flap or checklist work is finished; configure while monitoring the beam. Read the FMA first; do not press APP again if already armed/captured. Judge a `verified: false` result by the resulting modes, not button feedback alone. Do not swap a correctly identified ILS off frequency to reset guidance.
 - Verify LOC/G/S armed, then captured (`fma-roll` `VOR/LOC`, `fma-pitch` `G/S`) with near-centred deviations and a sustained descent consistent with the chart. A G/S label while level or climbing far below the beam is not a verified coupled final: do not engage the second CMD or raise the MCP on that label alone. Report unknown FMA codes without guessing their meaning; if actual guidance cannot be confirmed safely, follow `go-around`. From verified capture follow `ils-final-hands-off`, then `landing`.
 - If the approach is not stable by about 1000 ft AGL, or guidance is lost, follow `go-around`.
+
+## Continue through capture and landing
+
+For an ILS land-and-stop task, use these checkpoints after each instrument read:
+
+| State | Next step |
+| --- | --- |
+| ILS identified, correct intercept geometry, LOC/G/S not armed | Arm APP once and verify the armed or captured modes. |
+| LOC/G/S armed, still below the beam outside capture distance | Hold the permitted intercept altitude, finish the landing configuration and checklist, then read the instruments again; waiting for capture is an active monitoring loop. |
+| LOC/G/S verified captured with a steady descent | Continue directly with `ils-final-hands-off` and `landing`, including dual-channel verification, minima, touchdown and stopping. |
+| Still airborne or rolling after touchdown | Continue the appropriate flying or stopping step; a configuration update or a promise to do the next step is not completion. |
+
+End only after the requested endpoint is verified, the run has ended, or a specific safety blocker prevents continuation. A reported minimums-control limitation alone does not end the approach when the published altitude can still be monitored safely.
 
 ## RNAV approach instead
 
