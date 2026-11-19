@@ -76,6 +76,12 @@ Autoland keeps the airplane on the centreline but is not a taxi system. You own 
 4. **Disconnect the autopilot** with `ap-disconnect` in `cockpit_mcp_and_autopilot` once the airplane is slow and straight on the centreline. Do not use it on approach; to give up an approach use `to-ga-left`.
 5. Read `ground-speed`, `fma-roll` and the CMD lights between steps.
 
+## After-landing verification
+
+Once safely stopped or clear of the runway, read the `after_landing` checklist and verify each required setting. Decide exterior lights and transponder from the actual runway/taxi state and the published procedure; keep runway-occupancy settings until clear and report any missing assignment needed for further changes. Verify weather-radar operating mode OFF separately from the EFIS WXR overlay; an unlit overlay button does not establish radar OFF. If operating-mode feedback is unavailable, report it and leave that item unconfirmed. Mark separately verified items and read the section back for omissions.
+
+Before declaring the flight complete, read `fire-and-emergency`, the relevant system groups and available autopilot-disconnect indications (discover them with `list_readings` if needed). A stopped airplane and quiet configuration/stall alarms do not prove all warnings are clear. Identify any active warning, correct its cause or use its documented acknowledgement procedure, then read back; do not blindly reset cautions or re-engage CMD to silence a disconnect warning. Report any persisting warning or unavailable indication rather than claiming it is clear.
+
 ## Vacate the runway
 
 Steer on the ground with the rudder control: turn `flight-controls.joystick-override` on first (toggle: read the state), then `set-rudder-control` / `rudder-control` with a small ratio (the sign moves the nose left or right: check `heading` after the first input and correct), and return it to 0 to go straight. Control speed with `throttle` and `brakes` (`ground-speed` should be slow, about 10 to 20 kt, before any turn). Follow the chart for the exit, keep to the centreline until you turn, and stop with the parking brake (`parking-brake-toggle`, read the state first) clear of the runway. Then report where you are and set the phase to `arrived`.
