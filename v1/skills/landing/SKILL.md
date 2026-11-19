@@ -63,7 +63,7 @@ Do not touch the MCP modes: no `lnav`, `vnav`, `hdg-sel`, `v-s`, `lvl-chg`. Leav
 
 ## Flare and thrust retard (hands off)
 
-This section applies only to verified dual-channel autoland. Hands off the controls, not the instrument scan: keep reading the FMA, height, speed and descent until touchdown is confirmed, then perform the stopping sequence. You must **not** try to flare or pull the throttles yourself.
+This section applies only to verified dual-channel autoland. Hands off the controls, not the instrument scan: execute successive `read_flight_deck_indications` calls through the autoland checks, minima and confirmed touchdown, then perform the stopping sequence. When the path remains safe and no control action is needed, issue the next read rather than end with a promise to check again. You must **not** try to flare or pull the throttles yourself.
 
 1. About **50 ft**: the AFDS flares automatically. `fma-pitch` changes from `G/S` to `FLARE` and the flight director bars retract. Do not disconnect the autopilot.
 2. About **27 ft**: the autothrottle retards the thrust levers toward idle during the flare.
@@ -93,7 +93,7 @@ Autoland keeps the airplane on the centreline but is not a taxi system. You own 
 
 ## After-landing verification
 
-Once safely stopped or clear of the runway, read the `after_landing` checklist and verify each required setting. Decide exterior lights and transponder from the actual runway/taxi state and the published procedure; keep runway-occupancy settings until clear and report any missing assignment needed for further changes. Verify weather-radar operating mode OFF separately from the EFIS WXR overlay; an unlit overlay button does not establish radar OFF. If operating-mode feedback is unavailable, report it and leave that item unconfirmed. Mark separately verified items and read the section back for omissions.
+Once safely stopped or clear of the runway, read the `after_landing` checklist before giving a final reply and verify each returned item independently. Read and mark an already-correct setting without moving its switch; perform and verify any required change. Decide exterior lights and transponder from the actual runway/taxi state and the published procedure; keep runway-occupancy settings until clear and report any missing assignment needed for further changes. Verify weather-radar operating mode OFF separately from the EFIS WXR overlay; an unlit overlay button does not establish radar OFF. If operating-mode feedback is unavailable, report it and leave only that item unconfirmed, not the entire section. Read the section back to verify the marks persisted and account for each remaining omission.
 
 Before declaring the flight complete, read `fire-and-emergency`, the relevant system groups and available autopilot-disconnect indications (discover them with `list_readings` if needed). A stopped airplane and quiet configuration/stall alarms do not prove all warnings are clear.
 

@@ -5,7 +5,7 @@ description: Keep a Zibo 737 ILS/autoland stable after LOC and G/S capture. Use 
 
 # ILS final — hands off the modes
 
-After **VOR/LOC** and **G/S** are captured with CMD engaged, the autopilot is flying the approach. Most button presses on final make it worse. These mode-preservation rules do not authorise continuing a failed autoland: use the early manual-handoff procedure in `landing` only for a deliberately planned manual approach; otherwise follow `go-around`.
+After **VOR/LOC** and **G/S** are captured with CMD engaged, the autopilot is flying the approach. Most button presses on final make it worse. Hands off means leave the working controls alone, not stop calling the instruments. These mode-preservation rules do not authorise continuing a failed autoland: use the early manual-handoff procedure in `landing` only for a deliberately planned manual approach; otherwise follow `go-around`.
 
 Tools: autopilot buttons are the `cockpit_mcp_and_autopilot` tool (`action` values below); readings are `read_reading` / `read_group` on the `flightsim-pilot` server. The client may prefix tool names with the server name.
 
@@ -26,7 +26,7 @@ Once **VOR/LOC** is active and **G/S** is armed or active:
 |---|---|
 | Configure gear / flaps / speedbrake / CONT per checklist | Press `cmd-a`, `cmd-b` or a hold variant again |
 | Set landing speed once (`set-speed`); leave it | Toggle `app`, `vor-loc`, `lvl-chg`, `vnav`, or `hdg-sel` |
-| Engage **`cmd-b-hold` once** early (before 1500 ft height AGL), confirm both CMD lights, then stop | “Re-engage” dual AP mid-final |
+| Engage **`cmd-b-hold` once** early (before 1500 ft height AGL), confirm both CMD lights, then stop pressing CMD and keep scanning | “Re-engage” dual AP mid-final |
 | After **stable G/S capture and established descent**, set MCP missed approach (`set-altitude`) | Set missed MCP if G/S is not confirmed captured |
 | Monitor only: IAS, VS, height AGL, altitude, FMA, both CMD lights, localizer and glideslope dots | Fix a broken G/S with V/S scrapes close-in |
 
@@ -52,7 +52,7 @@ If vertical speed goes positive after you were descending on G/S:
 - Checklist config: `gear` value 2, flaps to schedule (`cockpit_brakes_flaps_and_gear` `flaps`), `cockpit_engine_start` `engine-1-start` and `engine-2-start` with value 2 (CONT), `speedbrake` value 1
 - One speed set (`set-speed`) to target approach speed
 - One MCP missed-approach set (`set-altitude`) **after** G/S is clearly captured and VS is a steady descent
-- One `cmd-b-hold` for dual channel, then hands off
+- One `cmd-b-hold` for dual channel, then hands off CMD buttons while continuing instrument reads
 - Early planned manual handoff: the verified sequence in `landing`, completed before the 1,000 ft AGL stability gate; no elevator inputs against engaged CMD
 - Go-around: `to-ga-left` (in `cockpit_engines_and_thrust`) when unstable, G/S lost or dual-channel engagement fails
 
@@ -69,3 +69,7 @@ Read back before touching anything else:
 Distance and deviation come from `radios-and-ils`: `nav-1-dme` (nm), `nav-1-localizer` and `nav-1-glideslope` (dots), `nav-1-glideslope-flag`, and `nav-1-ident` (must match the chart). Cross-check with `latitude` / `longitude` and `ground-speed`.
 
 If pitch FMA and the lights disagree, or APP/G/S indications disappear while still supposed to be on the slope — **go around**, do not experiment.
+
+## Continue the monitoring loop
+
+If the approach remains safe and no control change is needed, the next action is another `read_flight_deck_indications`, not a closing reply promising a later check. Continue through the 1,500 ft autoland checks, the 1,000 ft stability gate, minima, FLARE and touchdown in `landing`; read often enough not to pass the next gate unseen. After confirmed touchdown, follow its stopping sequence and `after_landing` verification. Dual CMD engagement or a completed landing-configuration checklist is not the land-and-stop endpoint.
